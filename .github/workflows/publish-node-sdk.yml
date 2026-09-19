@@ -1,0 +1,26 @@
+# .github/workflows/publish-node-sdk.yml
+name: Publish Node SDK
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: SemVer (e.g. 1.0.1)
+        required: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sdks/node
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm test
+      - run: npm version ${{ inputs.version }} --no-git-tag-version
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
