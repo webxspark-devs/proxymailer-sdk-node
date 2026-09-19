@@ -16,7 +16,7 @@ Requires Node.js 18+ (native `fetch`).
 import { Client } from "@proxymailer/sdk";
 
 const client = new Client(process.env.PROXYMAILER_API_KEY!, {
-  baseUrl: process.env.PROXYMAILER_BASE_URL ?? "https://mail.example.com",
+  baseUrl: process.env.PROXYMAILER_BASE_URL ?? "https://mail.wxp.app",
 });
 
 const result = await client.send({
