@@ -30,7 +30,7 @@ test("send success maps result and sets enterprise headers", async () => {
     attachment_count: 0,
   });
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: fetchImpl,
     maxRetries: 0,
   });
@@ -44,7 +44,7 @@ test("send success maps result and sets enterprise headers", async () => {
   assert.equal(result.httpStatus, 202);
   assert.equal((fetchImpl as any).mock.calls.length, 1);
   const [url, init] = (fetchImpl as any).mock.calls[0].arguments;
-  assert.equal(url, "https://mail.example.com/api/v1/send");
+  assert.equal(url, "https://proxymailer.wxp.app/api/v1/send");
   assert.equal(init.method, "POST");
   assert.equal(init.headers.Authorization, `Bearer ${KEY}`);
   assert.match(init.headers["User-Agent"], /^proxymailer-node\//);
@@ -56,7 +56,7 @@ test("send success maps result and sets enterprise headers", async () => {
 
 test("auth error throws", async () => {
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: mockFetch(401, { message: "Valid application API key required." }),
     maxRetries: 0,
   });
@@ -68,7 +68,7 @@ test("auth error throws", async () => {
 
 test("validation error exposes fields", async () => {
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: mockFetch(422, {
       message: "The given data was invalid.",
       errors: { from: ["Unauthorized sender"] },
@@ -114,7 +114,7 @@ test("sync failure 502 returns SendResult without retry", async () => {
     attachment_count: 0,
   });
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: fetchImpl,
     maxRetries: 3,
   });
@@ -146,7 +146,7 @@ test("honors Retry-After on 429 then succeeds", async () => {
   }) as unknown as typeof fetch;
 
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: fetchImpl,
     maxRetries: 2,
   });
@@ -157,7 +157,7 @@ test("honors Retry-After on 429 then succeeds", async () => {
 
 test("exhausted 429 throws RateLimitError", async () => {
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: mockFetch(429, { message: "rate limited" }, { "Retry-After": "0" }),
     maxRetries: 0,
   });
@@ -171,7 +171,7 @@ test("exhausted 429 throws RateLimitError", async () => {
 test("generic 502 is retried then throws ApiError", async () => {
   const fetchImpl = mockFetch(502, { message: "bad gateway" });
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: fetchImpl,
     maxRetries: 1,
   });
@@ -206,7 +206,7 @@ test("approved sender helpers unwrap data and hit correct paths", async () => {
   }) as unknown as typeof fetch;
 
   const client = new Client(KEY, {
-    baseUrl: "https://mail.example.com",
+    baseUrl: "https://proxymailer.wxp.app",
     fetch: fetchImpl,
     maxRetries: 0,
   });

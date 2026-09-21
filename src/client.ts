@@ -83,7 +83,7 @@ export class Client {
       throw new TypeError("API key must be a ProxyMailer key starting with pm_live_.");
     }
     this.apiKey = key;
-    this.baseUrl = (options.baseUrl ?? "https://mail.example.com").replace(/\/$/, "");
+    this.baseUrl = (options.baseUrl ?? "https://proxymailer.wxp.app").replace(/\/$/, "");
     this.timeoutMs = options.timeoutMs ?? 30_000;
     this.maxRetries = options.maxRetries ?? 3;
     this.fetchImpl = options.fetch ?? fetch;
